@@ -1,0 +1,8 @@
+dev:
+  path: "."
+  environment: "dev"
+  repo_name: "dr-nginx"
+  region: "ap-south-2"
+  ecr_url: ""
+  kustomization_file_path: "eks/dev"
+  cluster: ""

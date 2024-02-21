@@ -1,0 +1,32 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  namespace: frontend
+  annotations:
+    alb.ingress.kubernetes.io/success-codes: 200,404,403
+spec:
+  type: NodePort
+  ports:
+   - name: http
+     port: 80
+     protocol: TCP
+  selector:
+    app: nginx
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: preview-nginx-service
+  namespace: frontend
+  annotations:
+    alb.ingress.kubernetes.io/success-codes: 200,404,403
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+  selector:
+    app: nginx

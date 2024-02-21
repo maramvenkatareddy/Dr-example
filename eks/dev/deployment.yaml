@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+#apiVersion: apps/v1
+#kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: frontend
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy:
+    blueGreen:
+      autoPromotionEnabled: false
+      activeService: nginx-service
+      previewService: preview-nginx-service
+      previewReplicaCount: 1
+  selector:
+    matchLabels:
+      app: nginx
+      env: stage
+      owner: gray
+      application: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        env: stage
+        owner: gray
+        application: nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: dr-nginx
+        envFrom:
+          - secretRef:
+              name: nginx-secrets
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 80
